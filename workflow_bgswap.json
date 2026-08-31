@@ -1,0 +1,308 @@
+{
+ "1241": {
+  "class_type": "LTXVConditioning",
+  "inputs": {
+   "frame_rate": 25,
+   "negative": [
+    "2612",
+    0
+   ],
+   "positive": [
+    "2483",
+    0
+   ]
+  }
+ },
+ "2483": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "5023",
+    0
+   ],
+   "text": "The same person placed into a European city street lined with cream classical facades, warm glowing shopfront bokeh receding down the pavement behind, relit to match the scene. Lighting: soft overcast daylight key on the face with warm practical accents from behind, gentle shadows, warm-neutral white balance, medium contrast. Identity, pose, framing and wardrobe unchanged."
+  }
+ },
+ "2612": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "clip": [
+    "5023",
+    0
+   ],
+   "text": ""
+  }
+ },
+ "3059": {
+  "class_type": "EmptyLTXVLatentVideo",
+  "inputs": {
+   "batch_size": 1,
+   "height": 704,
+   "length": 97,
+   "width": 1280
+  }
+ },
+ "3940": {
+  "class_type": "CheckpointLoaderSimple",
+  "inputs": {
+   "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+  }
+ },
+ "4828": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "cfg": 4,
+   "model": [
+    "5011",
+    0
+   ],
+   "negative": [
+    "5014",
+    1
+   ],
+   "positive": [
+    "5014",
+    0
+   ]
+  }
+ },
+ "4829": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "guider": [
+    "4828",
+    0
+   ],
+   "latent_image": [
+    "6003",
+    0
+   ],
+   "noise": [
+    "4832",
+    0
+   ],
+   "sampler": [
+    "4831",
+    0
+   ],
+   "sigmas": [
+    "5025",
+    0
+   ]
+  }
+ },
+ "4831": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "euler"
+  }
+ },
+ "4832": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 42
+  }
+ },
+ "4851": {
+  "class_type": "VAEDecodeTiled",
+  "inputs": {
+   "overlap": 256,
+   "samples": [
+    "5013",
+    2
+   ],
+   "temporal_overlap": 4,
+   "temporal_size": 8,
+   "tile_size": 768,
+   "vae": [
+    "3940",
+    2
+   ]
+  }
+ },
+ "5011": {
+  "class_type": "LoraLoaderModelOnly",
+  "inputs": {
+   "lora_name": "liormamon__ltx23-bgswap-iclora-run4__run5_lora_weights_step_03000.safetensors",
+   "model": [
+    "3940",
+    0
+   ],
+   "strength_model": 1
+  }
+ },
+ "5012": {
+  "class_type": "LTXAddVideoICLoRAGuide",
+  "inputs": {
+   "crop": "disabled",
+   "frame_idx": 0,
+   "image": [
+    "5112",
+    0
+   ],
+   "latent": [
+    "3059",
+    0
+   ],
+   "latent_downscale_factor": 1,
+   "negative": [
+    "1241",
+    1
+   ],
+   "positive": [
+    "1241",
+    0
+   ],
+   "strength": 1,
+   "tile_overlap": 64,
+   "tile_size": 256,
+   "use_tiled_encode": false,
+   "vae": [
+    "3940",
+    2
+   ]
+  }
+ },
+ "5013": {
+  "class_type": "LTXVCropGuides",
+  "inputs": {
+   "latent": [
+    "6004",
+    0
+   ],
+   "negative": [
+    "5014",
+    1
+   ],
+   "positive": [
+    "5014",
+    0
+   ]
+  }
+ },
+ "5014": {
+  "class_type": "LTXAddVideoICLoRAGuide",
+  "inputs": {
+   "crop": "disabled",
+   "frame_idx": 0,
+   "image": [
+    "5115",
+    0
+   ],
+   "latent": [
+    "5012",
+    2
+   ],
+   "latent_downscale_factor": 1,
+   "negative": [
+    "5012",
+    1
+   ],
+   "positive": [
+    "5012",
+    0
+   ],
+   "strength": 1,
+   "tile_overlap": 64,
+   "tile_size": 256,
+   "use_tiled_encode": false,
+   "vae": [
+    "3940",
+    2
+   ]
+  }
+ },
+ "5023": {
+  "class_type": "LTXAVTextEncoderLoader",
+  "inputs": {
+   "ckpt_name": "ltx-2.3-22b-dev.safetensors",
+   "device": "default",
+   "text_encoder": "gemma_3_12B_it.safetensors"
+  }
+ },
+ "5025": {
+  "class_type": "BasicScheduler",
+  "inputs": {
+   "denoise": 1,
+   "model": [
+    "5011",
+    0
+   ],
+   "scheduler": "normal",
+   "steps": 30
+  }
+ },
+ "5112": {
+  "class_type": "VHS_LoadVideo",
+  "inputs": {
+   "custom_height": 0,
+   "custom_width": 0,
+   "force_rate": 25,
+   "frame_load_cap": 97,
+   "select_every_nth": 1,
+   "skip_first_frames": 0,
+   "video": "106eae5ad1660ed1d8c6e21ed7af55204b03475b262d82217e7f84bda444055d.mp4"
+  }
+ },
+ "5115": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "8b1d2ce05d4de8a91cd0490edf7633a2f003203052e027e2166e8ace229a85f8.png"
+  }
+ },
+ "9001": {
+  "class_type": "VHS_VideoCombine",
+  "inputs": {
+   "filename_prefix": "FIX_2stage_audiobranch",
+   "format": "video/h264-mp4",
+   "frame_rate": 25,
+   "images": [
+    "4851",
+    0
+   ],
+   "loop_count": 0,
+   "pingpong": false,
+   "save_output": true
+  }
+ },
+ "6001": {
+  "class_type": "LTXVAudioVAELoader",
+  "inputs": {
+   "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+  }
+ },
+ "6002": {
+  "class_type": "LTXVEmptyLatentAudio",
+  "inputs": {
+   "frames_number": 97,
+   "frame_rate": 25.0,
+   "batch_size": 1,
+   "audio_vae": [
+    "6001",
+    0
+   ]
+  }
+ },
+ "6003": {
+  "class_type": "LTXVConcatAVLatent",
+  "inputs": {
+   "video_latent": [
+    "5014",
+    2
+   ],
+   "audio_latent": [
+    "6002",
+    0
+   ]
+  }
+ },
+ "6004": {
+  "class_type": "LTXVSeparateAVLatent",
+  "inputs": {
+   "av_latent": [
+    "4829",
+    0
+   ]
+  }
+ }
+}
